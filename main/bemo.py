@@ -1,8 +1,6 @@
 import requests
-import re
-import json
+import logging as log
 from util.yaml_util import read_config
-from util.file_util import write_session, write_user_info, load_session, load_user_info
 from main.decorator.session import session
 from main.request_payload import RequestPayload
 
@@ -19,8 +17,9 @@ class Bemo:
   # Load list attendance
   @session
   def load_attendance(self, *args, **kwargs):
+    log.debug('Load attendance')
     attendances = {}
-    cookies = kwargs["session"]
+    cookies = kwargs['session']
     user_info = kwargs['user_info']
     # build request payload
     payload, payload_id = self.payload_helper\

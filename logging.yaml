@@ -1,0 +1,28 @@
+version: 1
+disable_existing_loggers: true
+
+formatters:
+  simple:
+    format: '%(asctime)s - [%(levelname)7s] - %(name)s - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+  file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    filename: logs/bemo.log
+    interval: 1
+    encoding: utf8
+    when: D
+loggers:
+  urllib3:
+    level: DEBUG
+    handlers: [console]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console,file]

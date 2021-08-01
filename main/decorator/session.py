@@ -1,3 +1,4 @@
+import logging as log
 from util.file_util import load_session, load_user_info
 from main.bemo_authen import BemoAuthen
 from main.bemo_status import BemoStatus
@@ -11,7 +12,7 @@ def session(function):
     user_info = load_user_info()
     # if session or user information is empty then call API to get session and user_info
     if not session or not user_info:
-      print('Call API to get session and user information')
+      log.debug('Call API to get session and user information')
       session, user_info = BemoAuthen().login_and_save_session()
     elif not BemoStatus().check_status(session, user_info):
       session, user_info = BemoAuthen().login_and_save_session()
@@ -21,4 +22,3 @@ def session(function):
     # call function to continue processing
     return function(*args, **kwargs)
   return wrap_function
-

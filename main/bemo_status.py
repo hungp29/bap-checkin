@@ -1,4 +1,5 @@
 import requests
+import logging as log
 from main.request_payload import RequestPayload
 from util.yaml_util import read_config
 
@@ -13,6 +14,7 @@ class BemoStatus:
     pass
 
   def check_status(self, session, user_info):
+    log.debug('Check status')
     im_status = {}
     # build request payload
     payload, payload_id = self.payload_helper\

@@ -1,8 +1,9 @@
 import requests
 import re
 import json
+import logging as log
 from util.yaml_util import read_config
-from util.file_util import write_session, write_user_info, load_session, load_user_info
+from util.file_util import write_session, write_user_info
 
 #----------------------
 # Bemo Authentication
@@ -15,6 +16,7 @@ class BemoAuthen:
 
   # Get csrf token and cookies
   def get_csrf_token_and_cookies(self):
+    log.debug('Get CSRF token and cookies')
     # send request to get csrf token and cookies
     response = requests.get(self.config['url']['csrf-token-url'])
     # extract csrf token
@@ -31,6 +33,7 @@ class BemoAuthen:
 
   # Login and save session
   def login_and_save_session(self):
+    log.debug('Login and save session')
     session, user_info = {}, {}
     # call function to get csrf token and cookies
     csrf_token, cookies = self.get_csrf_token_and_cookies()
