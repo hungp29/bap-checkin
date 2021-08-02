@@ -5,7 +5,17 @@ url:
   csrf-token-url: https://bap.bemo.cloud/web/login
   im-status-url: https://bap.bemo.cloud/longpolling/im_status
   login-url: https://bap.bemo.cloud/web/login
+
 # User Information
 user:
   password: <password>
   username: <username>
+
+# Working time
+working-time:
+  morning:
+    start: '8:15'
+    end: '12:00'
+  afternoon:
+    start: '13:15'
+    end: '17:30'

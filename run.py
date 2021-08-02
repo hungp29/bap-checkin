@@ -13,7 +13,10 @@ if __name__ == '__main__':
 
   if not 'encryptpass' in sys.argv:
     # doing attendance
-    Attendance().attend()
+    force_run = False
+    if 'force' in sys.argv:
+      force_run = True
+    Attendance().attend(force_run)
   else:
     # encrypt password
     Crypto().encrypt_pass()

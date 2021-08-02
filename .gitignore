@@ -132,3 +132,4 @@ dmypy.json
 session.json
 user_info.json
 keys
+config.yaml
