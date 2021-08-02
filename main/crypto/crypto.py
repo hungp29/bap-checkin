@@ -30,6 +30,7 @@ class Crypto:
     log.debug('Encrypt password')
     if share.config:
       share.config['user']['password'] = self.encrypt(share.config['user']['password'])
+      share.config['mail']['password'] = self.encrypt(share.config['mail']['password'])
       save_config(share.config)
 
   # Encrypt value

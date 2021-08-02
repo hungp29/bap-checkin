@@ -2,11 +2,14 @@ import pytz
 import main.share as share
 import logging as log
 from main.bemo import Bemo
+from main.mail.mail import Mail
 from datetime import date, datetime
-class Attendance:
+from main.timez import TimeZ
+class Attendance(TimeZ):
 
   def __init__(self):
       self.bemo = Bemo()
+      self.mail = Mail()
 
   # Doing attendance
   def attend(self, force_run=False):
@@ -25,6 +28,7 @@ class Attendance:
           attendance_today = record
           break
       
+      attendance = {}
       # If today's attendance exists then execute checkout
       if attendance_today:
         if force_run or self.__is_out_working_time():
@@ -43,9 +47,8 @@ class Attendance:
         check_out = self.__convert_tz(attendance['check_out'])
         log.info(f'CI: {check_in}; CO: {check_out}')
 
-  # Convert to timezone
-  def __convert_tz(self, time_str):
-    return datetime.strptime(time_str + '+0000', '%Y-%m-%d %H:%M:%S%z').astimezone(pytz.timezone(share.get_timezone()))
+      # Send email
+      self.mail.send(attendance)
 
   # Check out working time
   def __is_out_working_time(self):

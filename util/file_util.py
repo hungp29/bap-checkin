@@ -1,6 +1,7 @@
 import logging as log
 import json
 import util.constants as CONTS
+from string import Template
 
 # Writes json to file
 def write_json(filename, data):
@@ -39,3 +40,9 @@ def load_session():
 def load_user_info():
   log.debug('load user information from file')
   return read_json(CONTS.USER_INFO_FILE)
+
+# Read template
+def read_template(template):
+    with open('main/mail/templates/' + template, 'r', encoding='utf-8') as template_stream:
+        template_file_content = template_stream.read()
+    return Template(template_file_content)
