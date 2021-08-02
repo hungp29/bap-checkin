@@ -1,9 +1,12 @@
+import os
 import logging as log
 import logging.config
 import yaml
 
 # Load logging configuration
 def setup_logging(path='./logging.yaml'):
+  if not os.path.exists('logs'):
+    os.makedirs('logs')
   try:
     with open(path, 'r') as stream:
       config = yaml.safe_load(stream.read())
