@@ -2,8 +2,9 @@ import requests
 import re
 import json
 import logging as log
-from util.yaml_util import read_config
+import main.share as share
 from util.file_util import write_session, write_user_info
+from main.crypto.crypto import Crypto
 
 #----------------------
 # Bemo Authentication
@@ -12,7 +13,8 @@ class BemoAuthen:
 
   # Constructor
   def __init__(self):
-      self.config = read_config()
+    self.config = share.config
+    self.crypto = Crypto()
 
   # Get csrf token and cookies
   def get_csrf_token_and_cookies(self):
@@ -38,7 +40,7 @@ class BemoAuthen:
     # call function to get csrf token and cookies
     csrf_token, cookies = self.get_csrf_token_and_cookies()
     # prepare user data to login
-    user_data = {'login': self.config['user']['username'], 'password': self.config['user']['password'], 'csrf_token': csrf_token}
+    user_data = {'login': self.config['user']['username'], 'password': self.crypto.decrypt(self.config['user']['password']), 'csrf_token': csrf_token}
     # send request to login
     response = requests.post(self.config['url']['login-url'], data=user_data, cookies=cookies)
     # process data after login successfully

@@ -6,77 +6,92 @@ import random
 class RequestPayload:
   
   def __init__(self):
-    self.__model_data = None
-    self.__domain_data = None
-    self.__fields_data = None
-    self.__limit_data = None
-    self.__user_info_data = None
-    self.__partner_ids_data = None
+    self.__model = None
+    self.__domain = None
+    self.__fields = None
+    self.__limit = None
+    self.__user_info = None
+    self.__partner_ids = None
+    self.__ip_client = None
+    self.__args = None
+    self.__method = None
 
   # Set model
-  def model(self, model_data:str):
-    self.__model_data = model_data
+  def model(self, model:str):
+    self.__model = model
     return self
 
   # Set domain
-  def domain(self, domain_data:list):
-    self.__domain_data = domain_data
+  def domain(self, domain:list):
+    self.__domain = domain
     return self
 
   # Set fields
-  def fields(self, fields_data:list):
-    self.__fields_data = fields_data
+  def fields(self, fields:list):
+    self.__fields = fields
     return self
 
   # Set limit
-  def limit(self, limit_data:int):
-    self.__limit_data = limit_data
+  def limit(self, limit:int):
+    self.__limit = limit
     return self
 
   # Set user information
-  def user_info(self, user_info_data):
-    self.__user_info_data = user_info_data
+  def user_info(self, user_info):
+    self.__user_info = user_info
     return self
 
   # Set Partner ids
-  def partner_ids(self, partner_ids_data):
-    self.__partner_ids_data = partner_ids_data
+  def partner_ids(self, partner_ids):
+    self.__partner_ids = partner_ids
+    return self
+  
+  # Set ip client
+  def ip_client(self, ip_client):
+    self.__ip_client = ip_client
+    return self
+
+  # Set args
+  def args(self, args):
+    self.__args = args
+    return self
+
+  # Set method
+  def method(self, method):
+    self.__method = method
     return self
 
   # Build Request payload
-  def build(self):
+  def build(self, context_kwargs=False):
     id = random.randint(0, 999999999)
     context = {}
-    if self.__user_info_data:
-      context = self.__user_info_data['user_context'] | {'bin_size': True, 'allowed_company_ids': [self.__user_info_data['user_companies']['allowed_companies'][0][0]]}
+    if self.__user_info:
+      context = self.__user_info['user_context'] | {'bin_size': True, 'allowed_company_ids': [self.__user_info['user_companies']['allowed_companies'][0][0]]}
+
+    if self.__ip_client:
+      context['ip_client'] = self.__ip_client
+
     payload = {}
     payload['jsonrpc'] = '2.0'
-    payload['jsonrpc'] = 'call'
+    payload['method'] = 'call'
     payload['params'] = {}
-    if self.__model_data:
-      payload['params']['model'] = self.__model_data
-    if self.__domain_data:
-      payload['params']['domain'] = self.__domain_data
-    if self.__fields_data:
-      payload['params']['fields'] = self.__fields_data
-    if self.__limit_data:
-      payload['params']['limit'] = self.__limit_data
+    if self.__model:
+      payload['params']['model'] = self.__model
+    if self.__domain:
+      payload['params']['domain'] = self.__domain
+    if self.__fields:
+      payload['params']['fields'] = self.__fields
+    if self.__limit:
+      payload['params']['limit'] = self.__limit
     if context:
-      payload['params']['context'] = context
-    if self.__partner_ids_data:
-      payload['params']['partner_ids'] = self.__partner_ids_data
-
-
-    #   "jsonrpc": "2.0",
-    #   "method": "call",
-    #   "params": {
-    #       "model": self.__model_data,
-    #       "domain": self.__domain_data,
-    #       "fields": self.__fields_data,
-    #       "limit": self.__limit_data,
-    #       "sort": "",
-    #       "context": context
-    #   },
-    #   "id": id
-    # }
+      if not context_kwargs:
+        payload['params']['context'] = context
+      else:
+        payload['params']['kwargs'] = {'context': context}
+    if self.__partner_ids:
+      payload['params']['partner_ids'] = self.__partner_ids
+    if self.__args:
+      payload['params']['args'] = self.__args
+    if self.__method:
+      payload['params']['method'] = self.__method
     return payload, id

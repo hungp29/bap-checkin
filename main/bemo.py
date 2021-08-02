@@ -1,6 +1,6 @@
 import requests
 import logging as log
-from util.yaml_util import read_config
+import main.share as share
 from main.decorator.session import session
 from main.request_payload import RequestPayload
 
@@ -11,8 +11,8 @@ class Bemo:
 
   # Constructor
   def __init__(self):
-      self.config = read_config()
-      self.payload_helper = RequestPayload()
+    self.config = share.config
+    self.payload_helper = RequestPayload()
 
   # Load list attendance
   @session
@@ -47,3 +47,25 @@ class Bemo:
       attendances = response.json()
 
     return attendances
+
+  # Doing attendance manual
+  @session
+  def attendance_manual(self, *args, **kwargs):
+    log.debug('Doing attendance')
+    attendance = {}
+    cookies = kwargs['session']
+    user_info = kwargs['user_info']
+    # build request payload
+    payload, payload_id = self.payload_helper\
+      .user_info(user_info)\
+      .model('hr.employee')\
+      .method('attendance_manual')\
+      .args([[1675],'hr_attendance.hr_attendance_action_my_attendances'])\
+      .build(context_kwargs=True)
+
+    # send post request to do attendance manual
+    response = requests.post(self.config['url']['attend-url'], json=payload, cookies=cookies)
+    if response.status_code == 200:
+      attendance = response.json()['result']['action']['attendance']
+    
+    return attendance

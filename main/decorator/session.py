@@ -1,4 +1,5 @@
 import logging as log
+import main.share as share
 from util.file_util import load_session, load_user_info
 from main.bemo_authen import BemoAuthen
 from main.bemo_status import BemoStatus
@@ -19,6 +20,7 @@ def session(function):
     # attend session and user information to kwargs
     kwargs['session'] = session
     kwargs['user_info'] = user_info
+    share.user_info = user_info
     # call function to continue processing
     return function(*args, **kwargs)
   return wrap_function

@@ -1,7 +1,7 @@
 import requests
 import logging as log
+import main.share as share
 from main.request_payload import RequestPayload
-from util.yaml_util import read_config
 
 #--------------
 # Bemo Status
@@ -10,8 +10,7 @@ class BemoStatus:
 
   def __init__(self):
     self.payload_helper = RequestPayload()
-    self.config = read_config()
-    pass
+    self.config = share.config
 
   def check_status(self, session, user_info):
     log.debug('Check status')
