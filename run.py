@@ -11,7 +11,7 @@ if __name__ == '__main__':
   # load config
   share.config = read_config()
 
-  if not 'crypto' in sys.argv:
+  if not 'encryptpass' in sys.argv:
     # doing attendance
     Attendance().attend()
   else:
