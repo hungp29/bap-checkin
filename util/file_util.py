@@ -1,7 +1,7 @@
 import logging as log
 import json
 import util.constants as CONTS
-from string import Template
+from jinja2 import Template
 
 # Writes json to file
 def write_json(filename, data):

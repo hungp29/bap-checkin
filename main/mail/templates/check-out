@@ -11,7 +11,21 @@
     /*background: linear-gradient(157deg, rgba(0,212,255,1) 26%, rgba(83,83,83,1) 79%, rgba(255,255,255,1) 92%);*/
 ">
     <p style="text-align: center; font-weight: 600; text-transform: uppercase; color: #f1f1f1;">Checkout Information</p>
-    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Working Day: </span><strong>${WORKING_DAY}</strong></p>
-    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Checkin Time: </span><strong>${CHECK_IN_TIME}</strong></p>
-    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Checkout Time: </span><strong>${CHECK_OUT_TIME}</strong></p>
+    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Working Day: </span><strong>{{WORKING_DAY}}</strong></p>
+    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Working Time: </span><strong style="color: #efff00;">{{WORKING_TIME}}</strong></p>
+    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Checkin Time: </span><strong>{{CHECK_IN_TIME}}</strong></p>
+    <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Checkout Time: </span><strong>{{CHECK_OUT_TIME}}</strong></p>
+    {% if LATE_TIME %}
+    <p style="color: #fff;">
+        {% if TODAY_LATE_TIME %}
+        <span style="display: inline-block; width: 165px;">Late Time (Today): </span>
+        {% else %}
+        <span style="display: inline-block; width: 165px;">Late Time: </span>
+        {% endif %}
+        <strong>{{LATE_TIME}}</strong>
+        {% if TODAY_LATE_TIME %}
+        <strong style="color: #ff0000;">(+{{TODAY_LATE_TIME}})</strong>
+        {% endif %}
+    </p>
+    {% endif %}
 </div>

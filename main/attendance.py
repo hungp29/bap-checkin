@@ -1,4 +1,3 @@
-import pytz
 import main.share as share
 import logging as log
 from main.bemo import Bemo
@@ -15,6 +14,7 @@ class Attendance(TimeZ):
   def attend(self, force_run=False):
     today = date.today() #datetime.strptime('20210729', "%Y%m%d").date()
     attendance_today = {}
+    late_time = 0.0
     # Load attendance list
     attendances = self.bemo.load_attendance()
     if attendances:
@@ -26,7 +26,8 @@ class Attendance(TimeZ):
         check_out = self.convert_tz(record['check_out'])
         if check_in.date() == today:
           attendance_today = record
-          break
+        elif check_in.month == today.month and check_in.year == today.year:
+          late_time += record['hours_arrive_late'] + record['hours_leave_soon']
       
       attendance = {}
       # If today's attendance exists then execute checkout
@@ -48,7 +49,7 @@ class Attendance(TimeZ):
         log.info(f'CI: {check_in}; CO: {check_out}')
 
       # Send email
-      self.mail.send(attendance)
+      self.mail.send(attendance, late_time)
 
   # Check out working time
   def __is_out_working_time(self):
