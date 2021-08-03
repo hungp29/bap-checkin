@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # Project file
+logs
 session.json
 user_info.json
 keys

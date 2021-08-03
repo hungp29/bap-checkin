@@ -17,7 +17,7 @@ handlers:
     filename: logs/bemo.log
     interval: 1
     encoding: utf8
-    when: D
+    when: H
 loggers:
   urllib3:
     level: DEBUG

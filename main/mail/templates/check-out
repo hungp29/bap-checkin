@@ -10,7 +10,7 @@
     background: linear-gradient(157deg, rgba(255,255,255,1) 0%, rgba(83,83,83,1) 23%, rgba(0,212,255,1) 84%);
     /*background: linear-gradient(157deg, rgba(0,212,255,1) 26%, rgba(83,83,83,1) 79%, rgba(255,255,255,1) 92%);*/
 ">
-    <p style="text-align: center; font-weight: 600; text-transform: uppercase; color: #f1f1f1;">Checkin Information</p>
+    <p style="text-align: center; font-weight: 600; text-transform: uppercase; color: #f1f1f1;">Checkout Information</p>
     <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Working Day: </span><strong>${WORKING_DAY}</strong></p>
     <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Checkin Time: </span><strong>${CHECK_IN_TIME}</strong></p>
     <p style="color: #fff;"><span style="display: inline-block; width: 165px;">Checkout Time: </span><strong>${CHECK_OUT_TIME}</strong></p>
