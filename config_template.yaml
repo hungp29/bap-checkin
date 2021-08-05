@@ -3,7 +3,7 @@ url:
   attend-url: https://bap.bemo.cloud/web/dataset/call_kw/hr.employee/attendance_manual
   attendance-list-url: https://bap.bemo.cloud/web/dataset/search_read
   csrf-token-url: https://bap.bemo.cloud/web/login
-  im-status-url: https://bap.bemo.cloud/longpolling/im_status
+  im-status-url: https://bap.bemo.cloud/web/dataset/call_kw/ir.ui.menu/load_menus_root
   login-url: https://bap.bemo.cloud/web/login
 
 # User Information

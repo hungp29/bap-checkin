@@ -12,9 +12,10 @@ class RequestPayload:
     self.__limit = None
     self.__user_info = None
     self.__partner_ids = None
-    self.__ip_client = None
+    # self.__ip_client = None
     self.__args = None
     self.__method = None
+    self.__context = {}
 
   # Set model
   def model(self, model:str):
@@ -47,9 +48,9 @@ class RequestPayload:
     return self
   
   # Set ip client
-  def ip_client(self, ip_client):
-    self.__ip_client = ip_client
-    return self
+  # def ip_client(self, ip_client):
+  #   self.__ip_client = ip_client
+  #   return self
 
   # Set args
   def args(self, args):
@@ -61,6 +62,11 @@ class RequestPayload:
     self.__method = method
     return self
 
+  # Add context
+  def add_context(self, context_value:dict):
+    self.__context = self.__context | context_value
+    return self
+
   # Build Request payload
   def build(self, context_kwargs=False):
     id = random.randint(0, 999999999)
@@ -68,8 +74,9 @@ class RequestPayload:
     if self.__user_info:
       context = self.__user_info['user_context'] | {'bin_size': True, 'allowed_company_ids': [self.__user_info['user_companies']['allowed_companies'][0][0]]}
 
-    if self.__ip_client:
-      context['ip_client'] = self.__ip_client
+    # if self.__ip_client:
+    #   context['ip_client'] = self.__ip_client
+    context = context | self.__context
 
     payload = {}
     payload['jsonrpc'] = '2.0'
@@ -90,8 +97,9 @@ class RequestPayload:
         payload['params']['kwargs'] = {'context': context}
     if self.__partner_ids:
       payload['params']['partner_ids'] = self.__partner_ids
-    if self.__args:
+    if self.__args != None:
       payload['params']['args'] = self.__args
     if self.__method:
       payload['params']['method'] = self.__method
+    payload['id'] = id
     return payload, id

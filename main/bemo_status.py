@@ -17,9 +17,13 @@ class BemoStatus:
     im_status = {}
     # build request payload
     payload, payload_id = self.payload_helper\
-      .partner_ids(user_info['user_id'])\
-      .build()
-    # send post request to get attendance list
+      .model('ir.ui.menu')\
+      .method('load_menus_root')\
+      .args([])\
+      .user_info(user_info)\
+      .add_context({'website_id': 1})\
+      .build(True)
+    # send post request to check status
     response = requests.post(self.config['url']['im-status-url'], json=payload, cookies=session)
     if response.status_code == 200:
       im_status = response.json()
