@@ -18,10 +18,22 @@ handlers:
     interval: 1
     encoding: utf8
     when: H
+  http-file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    filename: logs/bemo-http.log
+    interval: 1
+    encoding: utf8
+    when: H
 loggers:
   urllib3:
     level: DEBUG
-    handlers: [console]
+    handlers: [console,http-file]
+    propagate: no
+  http.client:
+    level: DEBUG
+    handlers: [console,http-file]
     propagate: no
 root:
   level: DEBUG

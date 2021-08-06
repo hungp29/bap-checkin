@@ -71,7 +71,7 @@ class RequestPayload:
   def build(self, context_kwargs=False):
     id = random.randint(0, 999999999)
     context = {}
-    if self.__user_info:
+    if self.__user_info and 'user_context' in self.__user_info:
       context = self.__user_info['user_context'] | {'bin_size': True, 'allowed_company_ids': [self.__user_info['user_companies']['allowed_companies'][0][0]]}
 
     # if self.__ip_client:
